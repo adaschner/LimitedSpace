@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b1jt252roa2y7"]
+
+[node name="Lives" type="Label"]
+offset_right = 1.0
+offset_bottom = 23.0
+text = "Leben: "

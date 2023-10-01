@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://4qvf6ftptgxw"]
+
+[ext_resource type="Script" path="res://Sky.gd" id="1_qf2f2"]
+
+[node name="Sky" type="Node2D"]
+script = ExtResource("1_qf2f2")

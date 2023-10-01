@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0rjt5046j1jo"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_j103d"]
+[ext_resource type="PackedScene" uid="uid://crwrh0frwjs78" path="res://player.tscn" id="2_lmln5"]
+[ext_resource type="PackedScene" uid="uid://dd8m6vyhmprmg" path="res://level_completed.tscn" id="5_tncgs"]
+[ext_resource type="PackedScene" uid="uid://c4m4sccresfqt" path="res://game_over.tscn" id="6_rs74h"]
+[ext_resource type="AudioStream" uid="uid://bnnxlncahjk0p" path="res://GameSound2.wav" id="7_8mdqi"]
+[ext_resource type="PackedScene" uid="uid://b1jt252roa2y7" path="res://lives.tscn" id="7_ygqn1"]
+[ext_resource type="AudioStream" uid="uid://cqy4a2te5l0c" path="res://Goal.wav" id="8_w16fs"]
+[ext_resource type="Texture2D" uid="uid://c6js0xvv3vd57" path="res://clouds.png" id="10_e4hrs"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_j103d")
+
+[node name="Player" parent="." instance=ExtResource("2_lmln5")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("5_tncgs")]
+visible = false
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("6_rs74h")]
+visible = false
+
+[node name="Lives" parent="CanvasLayer" instance=ExtResource("7_ygqn1")]
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="GameOverTimer" type="Timer" parent="."]
+process_mode = 3
+wait_time = 2.0
+one_shot = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="CloudLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(320, 2.08165e-12)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/CloudLayer"]
+position = Vector2(160, 20)
+texture = ExtResource("10_e4hrs")
+
+[node name="GameAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_8mdqi")
+autoplay = true
+
+[node name="GoalAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("8_w16fs")
+area_mask = 2
+
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
+[connection signal="finished" from="GameAudioStreamPlayer" to="." method="_on_game_audio_stream_player_finished"]

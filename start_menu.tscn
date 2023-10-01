@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqkofwarx2r83"]
+
+[ext_resource type="Script" path="res://start_menu.gd" id="1_pxuo6"]
+
+[node name="StartMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_pxuo6")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "LIMITED SPACE"
+
+[node name="SplitContainer" type="HSplitContainer" parent="VSplitContainer"]
+layout_mode = 2
+dragger_visibility = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/SplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="StartGameButton" type="Button" parent="VSplitContainer/SplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="QuitButton" type="Button" parent="VSplitContainer/SplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Label" type="Label" parent="VSplitContainer/SplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 8
+text = "This Game has limited jumps
+Use the arrow key or A and D
+to move and the space key to jump"
+
+[connection signal="pressed" from="VSplitContainer/SplitContainer/VBoxContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="VSplitContainer/SplitContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

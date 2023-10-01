@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://fnnv52t5xu7d"]
+
+[sub_resource type="GDScript" id="GDScript_v027c"]
+script/source = "extends Node2D
+
+var cntr; var rds; var angle_from; var angle_to
+var nb_psets; var r = 5; var R = 30; var L
+
+func _ready():
+	randomize()
+	rds = randf_range(r, R)
+	cntr = Vector2(rds, 0)
+	angle_from = -90
+	angle_to = randf_range(5, 61)
+	nb_psets = abs(angle_from)+angle_to
+	L = randf_range(100, 201)
+	
+func draw_circle_arc():
+	var pset
+	for i in range(nb_psets+1):
+		var angle_pset = angle_from + 1 * (angle_to - angle_from) / nb_psets - 90
+		pset = cntr + Vector2( cos(deg_to_rad(angle_pset)), sin(deg_to_rad(angle_pset))) * rds
+		draw_rect(Rect2(pset, Vector2(1, 1)), Color(1, 1, 1, 1))
+		draw_rect(Rect2(pset + Vector2(0, -pset.y * 3), Vector2(1, 1)), Color(1, 1, 1, 1))
+		if fmod(i, 2) == 0: draw_line(pset, pset + Vector2(rds / 8, rds / 8), Color(1, 1, 1, 1))
+		if fmod(i, 4) == 0:
+			var refl = Vector2(pset.x, -pset.y * 0.3)
+			draw_line(refl, refl + Vector2(rds / 8, rds / 8), Color(1, 1, 1, 1))
+	if angle_to == 90: return
+	cntr = Vector2(randf_range(pset.x, pset.x + rds + r), 0)
+	rds = sqrt((pset.x - cntr.x) * (pset.x - cntr.x) + pset.y * pset.y)
+	angle_from = rad_to_deg(asin((pset.x - cntr.x) / rds))
+	angle_to = randf_range(5, 61)
+	nb_psets = abs(angle_from) + angle_to
+	if pset.x >= L: angle_to = 90; nb_psets = abs(angle_from) + angle_to
+	draw_circle_arc()
+	
+func _draw(): draw_circle_arc()
+"
+
+[node name="Cloud" type="Node2D"]
+script = SubResource("GDScript_v027c")
